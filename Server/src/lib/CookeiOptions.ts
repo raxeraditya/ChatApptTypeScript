@@ -1,13 +1,13 @@
-// interface cookieOption {
-//   maxAge: number;
-//   httpOnly: boolean;
-//   secure: boolean;
-// }
+interface cookieOption {
+  maxAge: number;
+  httpOnly: boolean;
+  secure: boolean;
+}
 
-// const cookieOPtionData: cookieOption = {
-//   maxAge: 1 * 24 * 60 * 60 * 1000,
-//   httpOnly: true,
-//   secure: true,
-// };
+const cookieOPtionData: cookieOption = {
+  maxAge: 1 * 24 * 60 * 60 * 1000,
+  httpOnly: true,
+  secure: false,
+};
 
-// export default cookieOPtionData;
+export default cookieOPtionData;

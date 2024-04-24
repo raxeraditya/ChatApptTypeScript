@@ -1,11 +1,12 @@
 import mongoose, { Schema } from "mongoose";
+import { Document, Types } from "mongoose";
 
-interface ConversationTypes extends Document {
-  participants: Schema.Types.ObjectId;
-  message: Schema.Types.ObjectId;
+export interface ConversationDocument extends Document {
+  participants: Types.ObjectId[]; // Array of participant IDs
+  messages: Types.ObjectId[]; // Array of message IDs
 }
 
-const conversationModel = new Schema<ConversationTypes>(
+const conversationModel = new Schema<ConversationDocument>(
   {
     participants: [
       {
@@ -13,7 +14,7 @@ const conversationModel = new Schema<ConversationTypes>(
         required: true,
       },
     ],
-    message: [
+    messages: [
       {
         type: Schema.Types.ObjectId,
         required: true,
@@ -24,5 +25,4 @@ const conversationModel = new Schema<ConversationTypes>(
 );
 
 const ConversationModel = mongoose.model("Conversation", conversationModel);
-
 export default ConversationModel;

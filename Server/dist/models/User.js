@@ -21,5 +21,5 @@ const UserSchema = new Schema({
         required: [true, "please input you gender"],
     },
 }, { timestamps: true });
-const UserModel = mongoose.model("User", UserSchema);
-export default UserModel;
+const User = mongoose.model("User", UserSchema);
+export default User;

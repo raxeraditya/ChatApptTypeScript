@@ -6,7 +6,7 @@ const conversationModel = new Schema({
             required: true,
         },
     ],
-    message: [
+    messages: [
         {
             type: Schema.Types.ObjectId,
             required: true,

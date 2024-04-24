@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 interface loginUser {
   username: string;
   password: string;
@@ -11,4 +13,8 @@ interface UserData {
   gender: string;
 }
 
-export { loginUser, UserData };
+interface AuthRequest extends Request {
+  id?: mongoose.Schema.Types.ObjectId; // Define the id property
+}
+
+export { loginUser, UserData, AuthRequest };

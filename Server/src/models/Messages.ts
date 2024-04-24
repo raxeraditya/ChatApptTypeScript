@@ -1,15 +1,23 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { mongo } from "mongoose";
 
-interface MessageSchemaTypes extends Document {
-  senderId: Schema.Types.ObjectId; // ID of the sender
-  recieverId: Schema.Types.ObjectId; // ID of the conversation
-  message: string;
+interface MessageTypes {
+  senderId: mongoose.Schema.Types.ObjectId;
+  receiverId: mongoose.Schema.Types.ObjectId;
+  message: String;
 }
 
-const MessageSchema = new Schema<MessageSchemaTypes>(
+const messageModel = new mongoose.Schema<MessageTypes>(
   {
-    senderId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    recieverId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    senderId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    receiverId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     message: {
       type: String,
       required: true,
@@ -17,10 +25,4 @@ const MessageSchema = new Schema<MessageSchemaTypes>(
   },
   { timestamps: true }
 );
-
-const MessageModel = mongoose.model<MessageSchemaTypes>(
-  "Message",
-  MessageSchema
-);
-
-export default MessageModel;
+export const Message = mongoose.model("Message", messageModel);
