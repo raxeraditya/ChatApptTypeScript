@@ -18,7 +18,7 @@ const UserSchema = new Schema({
     gender: {
         type: String,
         enum: ["male", "female"],
-        required: [true, "please input you gender"],
+        // required: [true, "please input you gender"],
     },
 }, { timestamps: true });
 const User = mongoose.model("User", UserSchema);

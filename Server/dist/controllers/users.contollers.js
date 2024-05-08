@@ -5,20 +5,20 @@ export const userRegister = async (req, res) => {
     try {
         const userData = await req.body;
         if (!userData) {
-            return res.json({ message: "Please input data" }).status(400);
+            return res.status(400).json({ message: "Please input data" });
         }
         const { username, email, password, confirmPassword, gender } = userData;
         if (!username || !email || !password || !confirmPassword) {
             return res
-                .json({ message: "Please input data username password" })
-                .status(400);
+                .status(400)
+                .json({ message: "Please input data username password" });
         }
         if (password !== confirmPassword) {
-            return res.json({ message: "your password does not match" }).status(400);
+            return res.status(400).json({ message: "your password does not match" });
         }
         const allreadyUser = await User.findOne({ username });
         if (allreadyUser) {
-            return res.json({ message: "user Allready exists" }).status(400);
+            return res.status(400).json({ message: "user Allready exists" });
         }
         //hassed
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -34,6 +34,9 @@ export const userRegister = async (req, res) => {
         const tokendata = {
             userId: newUser._id,
             userName: newUser.username,
+            password: newUser.password,
+            gender: newUser.gender,
+            profilePhoto: newUser.profilePhoto,
         };
         console.log(tokendata);
         const token = await generateTokenandSetCookie(req, res, tokendata);
@@ -57,8 +60,8 @@ export const userLogin = async (req, res) => {
         }
         if (!username || !password) {
             return res
-                .json({ message: "Please enter your username or password" })
-                .status(400);
+                .status(400)
+                .json({ message: "Please enter your username or password" });
         }
         const userFind = await User.findOne({ username });
         if (!userFind) {
@@ -74,6 +77,9 @@ export const userLogin = async (req, res) => {
         const tokendata = {
             userId: userFind._id,
             userName: userFind.username,
+            password: userFind.password,
+            gender: userFind.gender,
+            profilePhoto: userFind.profilePhoto,
         };
         // console.log("token data", tokendata);
         const token = generateTokenandSetCookie(req, res, tokendata);

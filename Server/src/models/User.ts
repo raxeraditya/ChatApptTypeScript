@@ -28,7 +28,7 @@ const UserSchema = new Schema<UserSchemaTypes>(
     gender: {
       type: String,
       enum: ["male", "female"],
-      required: [true, "please input you gender"],
+      // required: [true, "please input you gender"],
     },
   },
   { timestamps: true }

@@ -9,9 +9,9 @@ const generateTokenandSetCookie = async (req, res, tokendata) => {
             .status(400)
             .json({ message: "while we create a token found some error" });
     }
-    return res
-        .status(200)
-        .cookie("token", token, cookieOPtionData)
-        .json({ message: "succesfully regsiter a user or login ser" });
+    return res.status(200).cookie("token", token, cookieOPtionData).json({
+        message: "succesfully regsiter a user or login ser",
+        tokendata,
+    });
 };
 export default generateTokenandSetCookie;

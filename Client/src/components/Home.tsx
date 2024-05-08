@@ -1,14 +1,10 @@
-import axios from "axios";
-const Home = () => {
-  const handleuser = async () => {
-    const res = await axios.post("http://localhost:3000/api/users/v1/register");
+import Pages from "./Pages";
 
-    console.log(res);
-  };
+const Home = () => {
   return (
     <div>
-      <h1>Home</h1>
-      <button onClick={handleuser}> click</button>
+      <Pages />
+      <div className=""></div>
     </div>
   );
 };
