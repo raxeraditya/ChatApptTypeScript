@@ -1,16 +1,27 @@
 import { Message } from "../models/Messages.js";
 import ConversationModel from "../models/Conversation.js";
+import { MessageZod } from "../types/zodTypes.js";
 const sendMessages = async (req, res) => {
     try {
         const senderId = req.id;
-        let receiverId = req.params.id; // Create new ObjectId
-        if (!senderId || !receiverId) {
+        const receiverId = req.params.id;
+        // Create new ObjectId
+        if (!senderId && !receiverId) {
             return res
                 .status(400)
                 .json({ message: "please input userid or receiverId" });
         }
         console.log("............receiverId", receiverId);
-        const { message } = req.body;
+        const data = req.body;
+        const parsedInput = MessageZod.safeParse(data);
+        if (!parsedInput.success) {
+            const data1 = parsedInput.error.formErrors;
+            console.log(data1);
+            return res
+                .status(400)
+                .json({ message: "please input message than send it", data: data1 });
+        }
+        const { message } = data;
         // Find the ConversationModel
         let gotConversationModel = await ConversationModel.findOne({
             participants: { $all: [senderId, receiverId] },
@@ -40,7 +51,9 @@ const sendMessages = async (req, res) => {
     }
     catch (error) {
         console.error("Error sending message:", error);
-        return res.status(500).json({ message: "Internal server error" });
+        return res
+            .status(500)
+            .json({ message: "Internal server error in Message Controllers" });
     }
 };
 export default sendMessages;

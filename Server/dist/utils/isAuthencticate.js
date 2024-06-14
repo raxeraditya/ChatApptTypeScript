@@ -4,7 +4,7 @@ const isAuthencticate = async (req, res, next) => {
         const token = req.cookies.token;
         console.log("......... token", token);
         if (!token) {
-            return res.status(400).json({ message: "please login" });
+            return res.status(400).json({ message: "please login firstly" });
         }
         const decodedData = jwt.verify(token, process.env.JWT_TOKEN);
         if (!decodedData) {
