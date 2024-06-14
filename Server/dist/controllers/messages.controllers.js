@@ -4,6 +4,11 @@ const sendMessages = async (req, res) => {
     try {
         const senderId = req.id;
         let receiverId = req.params.id; // Create new ObjectId
+        if (!senderId || !receiverId) {
+            return res
+                .status(400)
+                .json({ message: "please input userid or receiverId" });
+        }
         console.log("............receiverId", receiverId);
         const { message } = req.body;
         // Find the ConversationModel

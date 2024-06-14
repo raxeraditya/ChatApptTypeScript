@@ -1,14 +1,23 @@
 import { Response, Request } from "express";
 import { Message } from "../models/Messages.js";
-import { ObjectId } from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 import ConversationModel from "../models/Conversation.js";
 interface AuthRequest extends Request {
   id?: ObjectId;
 }
 const sendMessages = async (req: AuthRequest, res: Response) => {
   try {
-    const senderId = req.id;
-    let receiverId = req.params.id; // Create new ObjectId
+    const senderId: mongoose.Types.ObjectId | undefined = req.id as
+      | mongoose.Types.ObjectId
+      | undefined;
+    let receiverId: mongoose.Types.ObjectId | string = req.params.id as
+      | mongoose.Types.ObjectId
+      | string; // Create new ObjectId
+    if (!senderId || !receiverId) {
+      return res
+        .status(400)
+        .json({ message: "please input userid or receiverId" });
+    }
     console.log("............receiverId", receiverId);
     const { message } = req.body;
     // Find the ConversationModel

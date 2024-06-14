@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { TokenType } from "../types/TokenType.js";
+import { TokenType } from "../types/tokenType.js";
 import { Response, Request } from "express";
 import cookieOPtionData from "../lib/CookeiOptions.js";
 

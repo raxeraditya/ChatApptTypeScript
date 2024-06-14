@@ -1,11 +1,10 @@
 import express, { Request, Response, Application } from "express";
 //setup dotenv allways in Root
 import dotenv from "dotenv";
-import bodyParser from "body-parser";
-import userRoutes from "./routes/users.router.js";
+import userRoutes from "./routes/routes.js";
 import cookieParser from "cookie-parser";
-import cors from "cors";
 import connectDb from "./utils/connectDb.js";
+import cors from "cors";
 
 dotenv.config();
 const port = process.env.PORT || 4000;
@@ -13,7 +12,6 @@ const app: Application = express();
 app.use(cookieParser());
 
 app.use(express.json());
-app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 const corsOptions = {
   origin: "http://localhost:5173",
@@ -25,7 +23,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("hey");
 });
 
-app.use("/api/users", userRoutes);
+app.use("/api", userRoutes);
 
 app.listen(port, () => {
   connectDb();

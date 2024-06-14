@@ -1,11 +1,22 @@
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import generateTokenandSetCookie from "../utils/Token.js";
+import { LoginSchemaZod, SignupSchemaZod } from "../types/zodTypes.js";
 export const userRegister = async (req, res) => {
     try {
         const userData = await req.body;
+<<<<<<< HEAD
         if (!userData) {
             return res.status(400).json({ message: "Please input data" });
+=======
+        const parsedInput = SignupSchemaZod.safeParse(userData);
+        if (!parsedInput.success) {
+            const data1 = parsedInput.error.formErrors;
+            console.log(data1);
+            return res
+                .json({ message: "Please input data", data: data1 })
+                .status(400);
+>>>>>>> ab05f79 (backend complete)
         }
         const { username, email, password, confirmPassword, gender } = userData;
         if (!username || !email || !password || !confirmPassword) {
@@ -34,9 +45,15 @@ export const userRegister = async (req, res) => {
         const tokendata = {
             userId: newUser._id,
             userName: newUser.username,
+<<<<<<< HEAD
             password: newUser.password,
             gender: newUser.gender,
             profilePhoto: newUser.profilePhoto,
+=======
+            profilePhoto: newUser.profilePhoto,
+            email: newUser.email,
+            gender: newUser.gender,
+>>>>>>> ab05f79 (backend complete)
         };
         console.log(tokendata);
         const token = await generateTokenandSetCookie(req, res, tokendata);
@@ -54,9 +71,13 @@ export const userRegister = async (req, res) => {
 export const userLogin = async (req, res) => {
     try {
         const userData = req.body;
+        const parsedInput = LoginSchemaZod.safeParse(userData);
         const { username, password } = userData;
-        if (!userData) {
-            return res.json({ message: "Please input data" }).status(400);
+        if (!parsedInput.success) {
+            const data1 = parsedInput.error.formErrors;
+            return res
+                .status(400)
+                .json({ message: "Please input data", data: data1 });
         }
         if (!username || !password) {
             return res
@@ -66,8 +87,8 @@ export const userLogin = async (req, res) => {
         const userFind = await User.findOne({ username });
         if (!userFind) {
             return res
-                .json({ message: "username is incorrect or not register" })
-                .status(400);
+                .status(400)
+                .json({ message: "username is incorrect or not register" });
         }
         const hashedPassword = userFind.password;
         const isPasswordCorrect = await bcrypt.compare(password, hashedPassword);
@@ -77,21 +98,29 @@ export const userLogin = async (req, res) => {
         const tokendata = {
             userId: userFind._id,
             userName: userFind.username,
+<<<<<<< HEAD
             password: userFind.password,
             gender: userFind.gender,
             profilePhoto: userFind.profilePhoto,
+=======
+            email: userFind.email,
+            profilePhoto: userFind.profilePhoto,
+            gender: userFind.gender,
+>>>>>>> ab05f79 (backend complete)
         };
         // console.log("token data", tokendata);
         const token = generateTokenandSetCookie(req, res, tokendata);
         if (!token) {
             return res
                 .status(400)
-                .json({ message: "your details are incorrect ot jenerate a token" });
+                .json({ message: "your details are incorrect to jenerate a token" });
         }
     }
     catch (error) {
         console.log("error somethin is wrong but solve it", error);
-        return res.json({ message: "user login error" }).status(500);
+        return res.status(500).json({
+            message: "internal server error",
+        });
     }
 };
 export const logout = (req, res) => {
@@ -102,6 +131,9 @@ export const logout = (req, res) => {
     }
     catch (error) {
         console.log(error);
+        return res.status(500).json({
+            message: "internal server error",
+        });
     }
 };
 export const getOtherUsers = async (req, res) => {
@@ -110,9 +142,14 @@ export const getOtherUsers = async (req, res) => {
         const otherUsers = await User.find({
             _id: { $ne: loggedInUserId },
         }).select("-password");
-        return res.status(200).json(otherUsers);
+        return res
+            .status(200)
+            .json({ message: "find other user succesfully", data: otherUsers });
     }
     catch (error) {
+        return res.status(500).json({
+            message: "internal server error",
+        });
         console.log(error);
     }
 };
