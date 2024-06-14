@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 interface MessageTypes {
   senderId: mongoose.Schema.Types.ObjectId;

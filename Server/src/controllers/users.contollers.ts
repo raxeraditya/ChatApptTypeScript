@@ -13,10 +13,9 @@ interface AuthRequest extends Request {
 export const userRegister = async (req: AuthRequest, res: Response) => {
   try {
     const userData: UserData = await req.body;
-<<<<<<< HEAD
     if (!userData) {
       return res.status(400).json({ message: "Please input data" });
-=======
+    }
     const parsedInput = SignupSchemaZod.safeParse(userData);
     if (!parsedInput.success) {
       const data1 = parsedInput.error.formErrors;
@@ -24,7 +23,6 @@ export const userRegister = async (req: AuthRequest, res: Response) => {
       return res
         .json({ message: "Please input data", data: data1 })
         .status(400);
->>>>>>> ab05f79 (backend complete)
     }
     const { username, email, password, confirmPassword, gender } = userData;
     if (!username || !email || !password || !confirmPassword) {
@@ -54,15 +52,9 @@ export const userRegister = async (req: AuthRequest, res: Response) => {
     const tokendata: TokenType = {
       userId: newUser._id as mongoose.Types.ObjectId,
       userName: newUser.username,
-<<<<<<< HEAD
-      password: newUser.password,
-      gender: newUser.gender,
-      profilePhoto: newUser.profilePhoto,
-=======
       profilePhoto: newUser.profilePhoto,
       email: newUser.email,
       gender: newUser.gender,
->>>>>>> ab05f79 (backend complete)
     };
     console.log(tokendata);
     const token = await generateTokenandSetCookie(req, res, tokendata);
@@ -110,15 +102,8 @@ export const userLogin = async (req: AuthRequest, res: Response) => {
     const tokendata: TokenType = {
       userId: userFind._id as mongoose.Types.ObjectId,
       userName: userFind.username,
-<<<<<<< HEAD
-      password: userFind.password,
       gender: userFind.gender,
-      profilePhoto: userFind.profilePhoto,
-=======
       email: userFind.email,
-      profilePhoto: userFind.profilePhoto,
-      gender: userFind.gender,
->>>>>>> ab05f79 (backend complete)
     };
     // console.log("token data", tokendata);
     const token = generateTokenandSetCookie(req, res, tokendata);

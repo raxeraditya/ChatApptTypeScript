@@ -14,7 +14,11 @@ const LoginSchemaZod = z.object({
   password: z.string().min(6, "Password must be at least 6 characters long"),
 });
 
+const MessageZod = z.object({
+  message: z.string(),
+});
+
 // Infer the TypeScript type from the schema
 type SignupData = z.infer<typeof SignupSchemaZod>;
 
-export { SignupData, SignupSchemaZod, LoginSchemaZod };
+export { SignupData, SignupSchemaZod, LoginSchemaZod, MessageZod };
