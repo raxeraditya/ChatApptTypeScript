@@ -1,24 +1,42 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./components/Home";
-import Navbar from "./components/Navbar";
-import SingnupPage from "./components/SignupPage";
-import LoginPage from "./components/LoginPage";
-import HomePageUserChat from "./components/HomePageUserChat";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import LoginForm from './components/auth/LoginForm';
+import SignupForm from './components/auth/SignupForm';
+import ChatList from './components/ChatList';
+import ChatWindow from './components/ChatWindow';
+import FloatingActions from './components/FloatingActions';
+import MobileChatView from './components/MobileChatView';
+import ProtectedRoute from './components/layout/ProtectedRoute';
+import Header from './components/layout/Header';
 
-const App = () => {
+function App() {
   return (
-    <div>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signup" element={<SingnupPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/messages" element={<HomePageUserChat />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/signup" element={<SignupForm />} />
+        <Route
+          path="/chat"
+          element={
+            <ProtectedRoute>
+              <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+                <Header />
+                <div className="container mx-auto h-[calc(100vh-4rem)] p-4">
+                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg h-full flex overflow-hidden">
+                    <ChatList />
+                    <ChatWindow />
+                  </div>
+                </div>
+                <FloatingActions />
+                <MobileChatView />
+              </div>
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/" element={<Navigate to="/chat" replace />} />
+      </Routes>
+    </Router>
   );
-};
+}
 
 export default App;
