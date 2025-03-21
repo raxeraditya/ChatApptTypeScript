@@ -1,5 +1,5 @@
-import React from 'react';
-import { Sun, Moon } from 'lucide-react';
+import { TiWeatherSunny } from "react-icons/ti";
+import { IoMoon } from "react-icons/io5";
 import { useTheme } from '../hooks/useTheme';
 
 const ThemeToggle = () => {
@@ -12,9 +12,9 @@ const ThemeToggle = () => {
       aria-label="Toggle theme"
     >
       {isDark ? (
-        <Sun className="w-6 h-6 text-yellow-500" />
+        <TiWeatherSunny className="w-6 h-6 text-yellow-500" />
       ) : (
-        <Moon className="w-6 h-6 text-gray-700" />
+        <IoMoon className="w-6 h-6 text-gray-700" />
       )}
     </button>
   );

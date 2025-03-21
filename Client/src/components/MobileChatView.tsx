@@ -1,4 +1,3 @@
-import React from 'react';
 import { useStore } from '../store/useStore';
 import MobileChatHeader from './MobileChatHeader';
 import ChatMessages from './ChatMessages';

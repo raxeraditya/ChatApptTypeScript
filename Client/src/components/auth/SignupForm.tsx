@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { UserPlus } from 'lucide-react';
+import { FaUserPlus } from "react-icons/fa";
 import { useAuthStore } from '../../store/useAuthStore';
 import { authApi } from '../../api/auth';
 
@@ -33,7 +33,7 @@ const SignupForm = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
       <div className="max-w-md w-full space-y-8 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
         <div className="text-center">
-          <UserPlus className="mx-auto h-12 w-12 text-green-500" />
+          <FaUserPlus className="mx-auto h-12 w-12 text-green-500" />
           <h2 className="mt-6 text-3xl font-bold text-gray-900 dark:text-white">Create your account</h2>
         </div>
         

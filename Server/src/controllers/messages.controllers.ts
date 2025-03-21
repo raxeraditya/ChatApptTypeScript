@@ -6,7 +6,7 @@ import { MessageZod } from "../types/zodTypes.js";
 interface AuthRequest extends Request {
   id?: ObjectId;
 }
-const sendMessages = async (req: AuthRequest, res: Response) => {
+const sendMessages = async (req: AuthRequest, res: Response, next: unknown) => {
   try {
     const senderId = req.id;
     const receiverId = req.params.id;

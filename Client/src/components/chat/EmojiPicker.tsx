@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Smile } from 'lucide-react';
+import { FaRegSmileWink } from "react-icons/fa";
 import { emojiCategories } from '../../utils/emojiData';
 
 interface EmojiPickerProps {
@@ -29,7 +29,7 @@ const EmojiPicker: React.FC<EmojiPickerProps> = ({ onEmojiSelect }) => {
         className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
         aria-label="Open emoji picker"
       >
-        <Smile className="w-6 h-6 text-gray-500 dark:text-gray-400" />
+        <FaRegSmileWink className="w-6 h-6 text-gray-500 dark:text-gray-400" />
       </button>
       
       {isOpen && (

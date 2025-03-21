@@ -2,33 +2,43 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
-interface AuthRequest extends Request {
-  id?: mongoose.Schema.Types.ObjectId; // Define the id property
+// Define the AuthRequest interface
+export interface AuthRequest extends Request {
+  id?: mongoose.Schema.Types.ObjectId;
 }
 
-const isAuthencticate = async (
-  req: AuthRequest,
+// Modify the middleware to use proper return type
+export const isAuthencticate = (
+  req: Request,
   res: Response,
   next: NextFunction
-) => {
+): void => {
   try {
     const token = req.cookies.token;
     console.log("......... token", token);
+    
     if (!token) {
-      return res.status(400).json({ message: "please login firstly" });
+      res.status(400).json({ message: "please login firstly" });
+      return;
     }
+    
     const decodedData: any = jwt.verify(token, process.env.JWT_TOKEN as string);
+    
     if (!decodedData) {
-      return res.status(400).json({ message: "you token has been modified" });
+      res.status(400).json({ message: "you token has been modified" });
+      return;
     }
-    const userId = decodedData.userId;
+    
+    // Cast req to AuthRequest to add the id property
+    (req as AuthRequest).id = decodedData.userId;
     console.log(".............docoded", decodedData.userId);
-    req.id = decodedData.userId;
     console.log("getToken", token);
+    
     next();
   } catch (error) {
     console.log("................error", error);
-    return res.status(500).json({ message: "internal server error" });
+    res.status(500).json({ message: "internal server error" });
+    return;
   }
 };
 

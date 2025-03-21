@@ -1,5 +1,3 @@
-import React from 'react';
-import { Phone, Video, MoreVertical } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import ChatMessages from './ChatMessages';
 import ChatInput from './ChatInput';

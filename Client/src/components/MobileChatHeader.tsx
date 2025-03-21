@@ -1,5 +1,5 @@
-import React from 'react';
-import { ArrowLeft, MoreVertical, Phone, Video, Users } from 'lucide-react';
+import { FaUser,FaPhone,FaVideo,FaArrowLeft } from "react-icons/fa";
+import { LuMoveVertical } from "react-icons/lu";
 import { useStore } from '../store/useStore';
 
 const MobileChatHeader = () => {
@@ -16,7 +16,7 @@ const MobileChatHeader = () => {
   return (
     <div className="p-4 bg-white dark:bg-gray-800 border-b dark:border-gray-700 flex items-center space-x-4">
       <button onClick={handleBack} className="p-1">
-        <ArrowLeft className="w-6 h-6 text-gray-500 dark:text-gray-400" />
+        <FaArrowLeft className="w-6 h-6 text-gray-500 dark:text-gray-400" />
       </button>
       <div className="flex items-center flex-1">
         <div className="relative">
@@ -27,7 +27,7 @@ const MobileChatHeader = () => {
           />
           {selectedGroup ? (
             <div className="absolute -bottom-1 -right-1 bg-gray-100 dark:bg-gray-700 rounded-full p-1">
-              <Users className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+              <FaUser className="w-4 h-4 text-gray-500 dark:text-gray-400" />
             </div>
           ) : (
             selectedUser?.status === 'online' && (
@@ -50,9 +50,9 @@ const MobileChatHeader = () => {
         </div>
       </div>
       <div className="flex space-x-3">
-        <Video className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-        <Phone className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-        <MoreVertical className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+        <FaVideo className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+        <FaPhone className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+        <LuMoveVertical className="w-5 h-5 text-gray-500 dark:text-gray-400" />
       </div>
     </div>
   );

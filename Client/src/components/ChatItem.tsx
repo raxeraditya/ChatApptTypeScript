@@ -1,6 +1,4 @@
-import React from 'react';
-import { Users } from 'lucide-react';
-
+import { FaUser } from "react-icons/fa";
 interface ChatItemProps {
   name: string;
   lastMessage: string;
@@ -32,7 +30,7 @@ const ChatItem = ({
         />
         {isGroup ? (
           <div className="absolute -bottom-1 -right-1 bg-gray-100 dark:bg-gray-700 rounded-full p-1">
-            <Users className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+            <FaUser className="w-4 h-4 text-gray-500 dark:text-gray-400" />
           </div>
         ) : isOnline && (
           <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-gray-800"></div>

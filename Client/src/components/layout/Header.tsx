@@ -1,6 +1,5 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut } from 'lucide-react';
+import { FiLogOut } from "react-icons/fi";
 import { useAuthStore } from '../../store/useAuthStore';
 
 const Header = () => {
@@ -22,7 +21,7 @@ const Header = () => {
           onClick={handleLogout}
           className="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
         >
-          <LogOut className="w-5 h-5" />
+          <FiLogOut className="w-5 h-5" />
           <span>Logout</span>
         </button>
       </div>

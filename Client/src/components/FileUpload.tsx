@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Paperclip } from 'lucide-react';
+import { FaPaperclip } from "react-icons/fa";
 
 interface FileUploadProps {
   onFileSelect: (file: File) => void;
@@ -28,7 +28,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect }) => {
         onClick={() => fileInputRef.current?.click()}
         className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
       >
-        <Paperclip className="w-6 h-6 text-gray-500 dark:text-gray-400" />
+        <FaPaperclip className="w-6 h-6 text-gray-500 dark:text-gray-400" />
       </button>
     </>
   );

@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { Search, MoreVertical, Users } from 'lucide-react';
+import  { useState } from 'react';
+import { IoMdSearch } from "react-icons/io";
 import ChatItem from './ChatItem';
 import CreateGroupChat from './chat/CreateGroupChat';
 import { useStore } from '../store/useStore';
 import { mockUsers } from '../data/mockUsers';
 import { GroupChat } from '../types/chat';
+import { User } from '../types/user';
+import { FaUser } from 'react-icons/fa';
+import { LuMoveVertical } from 'react-icons/lu';
 
 const ChatList = () => {
   const [showCreateGroup, setShowCreateGroup] = useState(false);
@@ -60,9 +63,9 @@ const ChatList = () => {
               className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
               aria-label="Create group chat"
             >
-              <Users className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+              <FaUser className="w-5 h-5 text-gray-500 dark:text-gray-400" />
             </button>
-            <MoreVertical className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+            <LuMoveVertical    className="w-5 h-5 text-gray-500 dark:text-gray-400" />
           </div>
         </div>
         <div className="mt-4 relative">
@@ -71,7 +74,7 @@ const ChatList = () => {
             placeholder="Search chats"
             className="w-full p-2 pl-10 rounded-lg bg-gray-100 dark:bg-gray-700 dark:text-white"
           />
-          <Search className="w-5 h-5 absolute left-3 top-2.5 text-gray-500 dark:text-gray-400" />
+          <IoMdSearch className="w-5 h-5 absolute left-3 top-2.5 text-gray-500 dark:text-gray-400" />
         </div>
       </div>
 

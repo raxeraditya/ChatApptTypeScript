@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Send } from 'lucide-react';
+import  { useState } from 'react';
+import { IoIosSend } from "react-icons/io";
 import EmojiPicker from './EmojiPicker';
 import FileUpload from './FileUpload';
 
@@ -54,7 +54,7 @@ const ChatInput = () => {
           onClick={handleSend}
           className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
         >
-          <Send className="w-6 h-6 text-gray-500 dark:text-gray-400" />
+          <IoIosSend className="w-6 h-6 text-gray-500 dark:text-gray-400" />
         </button>
       </div>
     </div>

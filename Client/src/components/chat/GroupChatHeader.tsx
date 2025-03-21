@@ -1,5 +1,5 @@
-import React from 'react';
-import { Users, Phone, Video, MoreVertical } from 'lucide-react';
+import { FaUser,FaPhone,FaVideo } from "react-icons/fa";
+import { LuMoveVertical } from "react-icons/lu";
 import { GroupChat } from '../../types/chat';
 
 interface GroupChatHeaderProps {
@@ -17,7 +17,7 @@ const GroupChatHeader = ({ group }: GroupChatHeaderProps) => {
             className="w-10 h-10 rounded-full object-cover"
           />
           <div className="absolute -bottom-1 -right-1 bg-gray-100 dark:bg-gray-700 rounded-full p-1">
-            <Users className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+            <FaUser className="w-4 h-4 text-gray-500 dark:text-gray-400" />
           </div>
         </div>
         <div className="ml-4">
@@ -28,9 +28,9 @@ const GroupChatHeader = ({ group }: GroupChatHeaderProps) => {
         </div>
       </div>
       <div className="flex space-x-4">
-        <Video className="w-5 h-5 text-gray-500 dark:text-gray-400 cursor-pointer" />
-        <Phone className="w-5 h-5 text-gray-500 dark:text-gray-400 cursor-pointer" />
-        <MoreVertical className="w-5 h-5 text-gray-500 dark:text-gray-400 cursor-pointer" />
+        <FaVideo className="w-5 h-5 text-gray-500 dark:text-gray-400 cursor-pointer" />
+        <FaPhone className="w-5 h-5 text-gray-500 dark:text-gray-400 cursor-pointer" />
+        <LuMoveVertical className="w-5 h-5 text-gray-500 dark:text-gray-400 cursor-pointer" />
       </div>
     </div>
   );
