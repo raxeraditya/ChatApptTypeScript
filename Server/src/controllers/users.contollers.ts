@@ -2,13 +2,16 @@ import { Response, Request, NextFunction } from "express";
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import generateTokenandSetCookie from "../utils/Token.js";
-import { TokenType } from "../types/tokenType.js";
-import { loginUser, UserData } from "../types/userType.js";
+import { AuthResponse, TokenType } from "../types/tokenType.js";
+import { AuthRequest, loginUserDataType, UserData } from "../types/userType.js";
 import mongoose from "mongoose";
 import { LoginSchemaZod, SignupSchemaZod } from "../types/zodTypes.js";
-interface AuthRequest extends Request {
-  id?: mongoose.Schema.Types.ObjectId; // Define the id property
-}
+
+type loginUser = (
+  req: AuthRequest, 
+  res: Response
+) => Promise<Response<AuthResponse, Record<string, any>>>;
+
 
 export const userRegister = async (req: AuthRequest, res: Response) => {
   try {
@@ -33,7 +36,7 @@ export const userRegister = async (req: AuthRequest, res: Response) => {
     if (password !== confirmPassword) {
       return res.status(400).json({ message: "your password does not match" });
     }
-    const allreadyUser = await User.findOne({ username });
+    const allreadyUser = await User.findOne({ $and:[{username},{email}] });
     if (allreadyUser) {
       return res.status(400).json({ message: "user Allready exists" });
     }
@@ -57,68 +60,89 @@ export const userRegister = async (req: AuthRequest, res: Response) => {
       gender: newUser.gender,
     };
     console.log(tokendata);
-    const token = await generateTokenandSetCookie(req, res, tokendata);
+    const token = await generateTokenandSetCookie(res, tokendata);
     if (!token) {
       return res.status(400).json({
         message: "your details are incorrect ot jenerate a token",
       });
     }
   } catch (error) {
-    console.log("error something", error);
-    return res.json({ message: "error while register a user" }).status(500);
+  res.status(500).json({ message: "Internal server error" });
   }
 };
 
-export const userLogin = async (req: AuthRequest, res: Response) => {
+export const userLogin: loginUser = async (
+  req: AuthRequest,
+  res: Response
+): Promise<Response<AuthResponse, Record<string, any>>> => {
   try {
-    const userData: loginUser = req.body;
+    const userData:loginUserDataType  = req.body;
     const parsedInput = LoginSchemaZod.safeParse(userData);
-    const { username, password } = userData;
+    
     if (!parsedInput.success) {
       const data1 = parsedInput.error.formErrors;
       return res
         .status(400)
         .json({ message: "Please input data", data: data1 });
     }
+    
+    const { username, password, email } = userData;
+    
     if (!username || !password) {
       return res
         .status(400)
         .json({ message: "Please enter your username or password" });
     }
-    const userFind = await User.findOne({ username });
+    
+    const userFind = await User.findOne({
+      $and: [{ username: username }, { email: email }],
+    });
+    
     if (!userFind) {
       return res
         .status(400)
-        .json({ message: "username is incorrect or not register" });
+        .json({ message: "Username is incorrect or not registered" });
     }
+    
     const hashedPassword = userFind.password;
     const isPasswordCorrect: boolean = await bcrypt.compare(
       password,
       hashedPassword
     );
+    
     if (!isPasswordCorrect) {
-      return res.json({ message: "your password is wrong" }).status(400);
+      return res
+        .status(400)
+        .json({ message: "Your password is wrong" });
     }
+    
     const tokendata: TokenType = {
       userId: userFind._id as mongoose.Types.ObjectId,
       userName: userFind.username,
       gender: userFind.gender,
       email: userFind.email,
     };
-    // console.log("token data", tokendata);
-    const token = generateTokenandSetCookie(req, res, tokendata);
-    if (!token) {
+    
+    const result = await generateTokenandSetCookie(res, tokendata);
+    
+    // If result is undefined (which shouldn't happen with the improved function), return an error
+    if (!result) {
       return res
-        .status(400)
-        .json({ message: "your details are incorrect to jenerate a token" });
+        .status(500)
+        .json({ message: "Failed to generate authentication token" });
     }
+    
+    // generateTokenandSetCookie now returns the Response object, so we return that directly
+    return result;
+    
   } catch (error) {
-    console.log("error somethin is wrong but solve it", error);
+    console.error("Error in user login:", error);
     return res.status(500).json({
-      message: "internal server error",
+      message: "Internal server error",
     });
   }
 };
+
 
 export const logout = (req: Request, res: Response) => {
   try {
@@ -132,7 +156,11 @@ export const logout = (req: Request, res: Response) => {
     });
   }
 };
-export const getOtherUsers = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const getOtherUsers = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const loggedInUserId = req.id;
     const otherUsers = await User.find({
@@ -145,6 +173,16 @@ export const getOtherUsers = async (req: AuthRequest, res: Response, next: NextF
     return res.status(500).json({
       message: "internal server error",
     });
-    console.log(error);
   }
 };
+
+
+export const authentication = (req:AuthRequest,res:Response)=>{
+try {
+  console.log(req.id)
+  return res.status(200).json({message:"hey",id:req.id})
+} catch (error) {
+  return res.status(500).json({message:"Server Error"})
+  
+}
+}

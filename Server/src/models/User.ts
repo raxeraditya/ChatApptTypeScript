@@ -12,12 +12,12 @@ const UserSchema = new Schema<UserSchemaTypes>(
   {
     username: {
       type: String,
-      required: [true, "please input you username"],
+      required: [true, "please input your username"],
       unique: true,
     },
     email: {
       type: String,
-      required: [true, "please input you email"],
+      required: [true, "please input your email"],
       unique: true,
     },
     password: { type: String, required: [true, "please input you password"] },

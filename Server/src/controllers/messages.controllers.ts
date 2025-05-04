@@ -3,9 +3,8 @@ import { Message } from "../models/Messages.js";
 import mongoose, { ObjectId } from "mongoose";
 import ConversationModel from "../models/Conversation.js";
 import { MessageZod } from "../types/zodTypes.js";
-interface AuthRequest extends Request {
-  id?: ObjectId;
-}
+import { AuthRequest } from "../types/userType.js";
+
 const sendMessages = async (req: AuthRequest, res: Response, next: unknown) => {
   try {
     const senderId = req.id;

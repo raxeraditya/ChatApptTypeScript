@@ -1,7 +1,9 @@
+import { Request } from "express";
 import mongoose from "mongoose";
 
-interface loginUser {
+interface loginUserDataType {
   username: string;
+  email:string;
   password: string;
 }
 
@@ -13,8 +15,8 @@ interface UserData {
   gender: string;
 }
 
-interface AuthRequest extends Request {
-  id?: mongoose.Schema.Types.ObjectId; // Define the id property
+export interface AuthRequest extends Request {
+  id?: mongoose.Types.ObjectId; // Define the id property
 }
 
-export { loginUser, UserData, AuthRequest };
+export { loginUserDataType, UserData };

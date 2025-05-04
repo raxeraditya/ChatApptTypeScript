@@ -1,8 +1,8 @@
-import { useStore } from '../store/useStore';
-import ChatMessages from './ChatMessages';
-import ChatInput from './ChatInput';
-import GroupChatHeader from './chat/GroupChatHeader';
-import UserChatHeader from './chat/UserChatHeader';
+import { useStore } from "../store/useStore";
+import ChatMessages from "./ChatMessages";
+import ChatInput from "./ChatInput";
+import GroupChatHeader from "./chat/GroupChatHeader";
+import UserChatHeader from "./chat/UserChatHeader";
 
 const ChatWindow = () => {
   const { selectedUser, selectedGroup } = useStore();
@@ -10,7 +10,9 @@ const ChatWindow = () => {
   if (!selectedUser && !selectedGroup) {
     return (
       <div className="hidden md:flex flex-col flex-1 items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <p className="text-gray-500 dark:text-gray-400">Select a chat to start messaging</p>
+        <p className="text-gray-500 dark:text-gray-400">
+          Select a chat to start messaging
+        </p>
       </div>
     );
   }
@@ -29,3 +31,4 @@ const ChatWindow = () => {
 };
 
 export default ChatWindow;
+

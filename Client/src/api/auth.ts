@@ -1,32 +1,34 @@
+import axiosClient from "../utils/axiosClient";
+
 // Mock API service for authentication
 export const authApi = {
-  async login(email: string, password: string) {
+  async login(username:string, email: string, password: string) {
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
     if (!email || !password) {
-      throw new Error('Invalid credentials');
+      throw new Error("Invalid credentials");
     }
-    
-    return {
-      id: Math.random().toString(36).substr(2, 9),
+    const data = {
+      username,
       email,
-      name: email.split('@')[0],
+      password
+    }
+    const LoginApi = axiosClient.post("/api/v1/login",data)
+
+    return {
+      LoginApi
     };
   },
 
   async signup(email: string, password: string, name: string) {
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
+
     if (!email || !password || !name) {
-      throw new Error('All fields are required');
+      throw new Error("All fields are required");
     }
-    
+    const SignUp = await axiosClient.post("/api/v1/register")
+
     return {
-      id: Math.random().toString(36).substr(2, 9),
-      email,
-      name,
+      SignUp
     };
-  }
+  },
 };

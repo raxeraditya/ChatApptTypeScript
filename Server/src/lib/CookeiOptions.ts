@@ -4,10 +4,10 @@ interface cookieOption {
   secure: boolean;
 }
 
-const cookieOPtionData: cookieOption = {
+const cookieOptionData: cookieOption = {
   maxAge: 1 * 24 * 60 * 60 * 1000,
   httpOnly: true,
   secure: false,
 };
 
-export default cookieOPtionData;
+export default cookieOptionData;

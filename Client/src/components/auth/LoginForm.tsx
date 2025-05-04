@@ -6,6 +6,7 @@ import { authApi } from '../../api/auth';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -18,7 +19,7 @@ const LoginForm = () => {
     setLoading(true);
 
     try {
-      const user = await authApi.login(email, password);
+      const user = await authApi.login(username,email, password);
       login(user);
       navigate('/chat');
     } catch (err) {
@@ -44,6 +45,19 @@ const LoginForm = () => {
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
+          <div>
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Username address
+              </label>
+              <input
+                id="username"
+                type="username"
+                required
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 dark:text-white"
+              />
+            </div>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Email address

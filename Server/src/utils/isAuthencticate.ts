@@ -1,45 +1,37 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
+import { AuthRequest } from "../types/userType.js";
 
-// Define the AuthRequest interface
-export interface AuthRequest extends Request {
-  id?: mongoose.Schema.Types.ObjectId;
-}
-
-// Modify the middleware to use proper return type
-export const isAuthencticate = (
+export const isAuthenticate = (
   req: Request,
   res: Response,
   next: NextFunction
 ): void => {
   try {
-    const token = req.cookies.token;
-    console.log("......... token", token);
-    
+    // Get token from Authorization header or cookies
+    const authHeader = req.headers.authorization;
+    const tokenFromHeader = authHeader?.startsWith("Bearer ")
+      ? authHeader.split(" ")[1]
+      : null;
+
+    const token = tokenFromHeader || req.cookies?.token;
+
     if (!token) {
-      res.status(400).json({ message: "please login firstly" });
+      res.status(401).json({ message: "Please login first" });
       return;
     }
-    
-    const decodedData: any = jwt.verify(token, process.env.JWT_TOKEN as string);
-    
-    if (!decodedData) {
-      res.status(400).json({ message: "you token has been modified" });
-      return;
-    }
-    
-    // Cast req to AuthRequest to add the id property
-    (req as AuthRequest).id = decodedData.userId;
-    console.log(".............docoded", decodedData.userId);
-    console.log("getToken", token);
-    
+
+    const decodedData = jwt.verify(token, process.env.JWT_TOKEN as string) as {
+      userId: string;
+    };
+
+    // Attach user ID to request
+    (req as AuthRequest).id = new mongoose.Types.ObjectId(decodedData.userId);
     next();
   } catch (error) {
-    console.log("................error", error);
-    res.status(500).json({ message: "internal server error" });
-    return;
+    res.status(401).json({ message: "Invalid or expired token" });
   }
 };
+export { AuthRequest };
 
-export default isAuthencticate;
